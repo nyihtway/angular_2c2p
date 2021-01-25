@@ -1,5 +1,4 @@
-import { UserToCreate } from './_interfaces/userToCreate.model';
-import { User } from './_interfaces/user.model';
+
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -10,10 +9,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AppComponent implements OnInit {
   public isCreate: boolean;
-  public name: string;
-  public address: string;
-  public user: UserToCreate;
-  public users: User[] = [];
   public response: {dbPath: ''};
 
   constructor(private http: HttpClient){}
@@ -22,31 +17,9 @@ export class AppComponent implements OnInit {
     this.isCreate = true;
   }
 
-  public onCreate = () => {
-    this.user = {
-      name: this.name,
-      address: this.address,
-      imgPath: this.response.dbPath
-    }
-
-    this.http.post('https://localhost:5001/api/users', this.user)
-    .subscribe(res => {
-      this.getUsers();
-      this.isCreate = false;
-    });
-  }
-
-  private getUsers = () => {
-    this.http.get('https://localhost:5001/api/users')
-    .subscribe(res => {
-      this.users = res as User[];
-    });
-  }
-
   public returnToCreate = () => {
     this.isCreate = true;
-    this.name = '';
-    this.address = '';
+
   }
 
   public uploadFinished = (event) => {
@@ -54,6 +27,6 @@ export class AppComponent implements OnInit {
   }
 
   public createImgPath = (serverPath: string) => {
-    return `https://localhost:5001/${serverPath}`;
+    return `http://localhost:5001/${serverPath}`;
   }
 }
