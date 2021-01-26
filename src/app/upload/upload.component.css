@@ -4,3 +4,9 @@
     margin-left: 15px;
     line-height: 36px;
 }
+.error {
+    font-weight: bold;
+    color:#ff0000;
+    margin-left: 15px;
+    line-height: 36px;
+}

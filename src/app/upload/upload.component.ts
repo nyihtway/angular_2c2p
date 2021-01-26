@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { HttpClient, HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpEventType, HttpResponseBase } from '@angular/common/http';
+import { error } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-upload',
@@ -10,6 +11,7 @@ export class UploadComponent implements OnInit {
 
   public progress: number;
   public message: string;
+  public error: string;
   
   @Output() public onUploadFinished = new EventEmitter();
   
@@ -35,8 +37,14 @@ export class UploadComponent implements OnInit {
           this.progress = Math.round(100 * event.loaded / event.total);
         else if (event.type === HttpEventType.Response) {
           this.message = 'Upload success.';
+          this.error = '';
           this.onUploadFinished.emit(event.body);
         }
+      },
+      error => {
+        this.error = error.error;
+        this.message ='';
+        //this.onUploadFinished.emit(error.body);
       });
   }
 
